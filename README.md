@@ -104,29 +104,20 @@ node {
 
 Les stages permettent de structurer le rendu de la progression d’un pipeline.
 
+```
 stage(‘Checkout’) {
-
  sleep 5
-
 }
-
 stage(‘Build’) {
-
  sleep 8
-
 }
-
 stage(‘Test’) {
-
  sleep 10
-
 }
-
 stage(‘Deployment’) {
-
   sleep 1
-
 }
+```
 
 Le rendu de ce pipeline se fera de la façon suivante
 
@@ -136,11 +127,13 @@ Le rendu de ce pipeline se fera de la façon suivante
 
 Le mot-clé parallel permet d’exécuter plusieurs blocs en parallèle et d’attendre avant qu’ils aient tous finis de s’exécuter (fork-join) avant de continuer le pipeline.
 
+```
 parallel 'integration-tests':{
     node('mvn-3.3'){}
 }, 'functional-tests':{
     node('selenium'){}
 }
+```
 
 ## Deuxième Pipeline
 
@@ -151,7 +144,6 @@ Ce projet est un exemple de projet java utilisant Maven comme outil de build, qu
 ### Trouver le bon plugin
 
 * [https://plugins.jenkins.io/](https://plugins.jenkins.io/)
-
 * [https://jenkins.io/doc/pipeline/steps/](https://jenkins.io/doc/pipeline/steps/)
 
 Etape 1: Créer un pipeline permettant de récupérer le code du projet
@@ -162,7 +154,7 @@ Etape 2:
 
 * Ajouter des stage ‘Checkout’ et ‘Build’ afin d’avoir une représentation visuelle du pipeline
 
-Step 3: 
+Etape 3: 
 
 Exercice: Concevoir un pipeline afin de construire ce projet.
 
@@ -173,13 +165,9 @@ Exercice: Concevoir un pipeline afin de construire ce projet.
 ### Rapports de tests
 
 * JUnit
-
 * Checkstyle
-
 * FindBugs
-
 * PMD
-
 * Warnings
 
 ### Validation manuelle
