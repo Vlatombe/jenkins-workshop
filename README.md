@@ -1,6 +1,8 @@
-# Préparation de l’environnement
+# Jenkins Workshop
 
-## Outils
+## Préparation de l’environnement
+
+### Outils
 
 Vérifier la version de java installée, et que Java est bien déclaré dans le PATH
 
@@ -10,7 +12,7 @@ Si non, vérifier l’installation de Java, autrement ajouter le chemin vers la 
 
 export PATH=$JAVA_HOME/bin
 
-## Démarrer Jenkins
+### Démarrer Jenkins
 
 Se placer dans le dossier où jenkins.war a été téléchargé.
 
@@ -40,7 +42,7 @@ Créez un administrateur et terminez l’assistant.
 
 ![Jenkins est prêt!](jenkins_est_pret.png)
 
-## Déclaration des outils
+### Déclaration des outils
 
 Nous allons utiliser une JDK ainsi que Maven pour construire certains projets. Nous allons indiquer à Jenkins où trouver ces outils.
 
@@ -66,7 +68,7 @@ Nous allons utiliser une JDK ainsi que Maven pour construire certains projets. N
 
         * Entrez le chemin vers votre installation Maven
 
-# Premier pipeline
+## Premier pipeline
 
 Overview: [https://jenkins.io/doc/book/pipeline/overview/](https://jenkins.io/doc/book/pipeline/overview/)
 
@@ -84,13 +86,13 @@ La définition des pipelines se fait via un DSL Groovy interprété via un inter
 
 **Stage**: Étapes de haut niveau du pipeline. Un pipeline est constitué d’un enchaînement de Stages qui servent délimiter les différentes parties d’exécution du pipeline. Les différents stages définis dans le pipeline permettent de le représenter graphiquement.
 
-## Etapes disponibles
+### Etapes disponibles
 
 La liste des étapes disponibles dépend des plugins installés sur l’instance, chaque plugin pouvant contribuer de nouvelles étapes. L’écran **Pipeline Syntax**, accessible via <jenkins_url>/pipeline-syntax/, liste toutes les étapes disponibles et permet de générer les code snippets pour les utiliser.
 
-## Exemples
+### Exemples
 
-### Exemple 1 : Pipeline minimal
+#### Exemple 1 : Pipeline minimal
 
 Un pipeline minimal peut s’écrire ainsi:
 
@@ -98,7 +100,7 @@ node {
     echo 'Hello from Pipeline'
 }
 
-### Exemple 2 : Utilisation des stages
+#### Exemple 2 : Utilisation des stages
 
 Les stages permettent de structurer le rendu de la progression d’un pipeline.
 
@@ -130,7 +132,7 @@ Le rendu de ce pipeline se fera de la façon suivante
 
 ![Stage View](stage_view.png)
 
-### Exemple 3 : Exécutions en parallèle
+#### Exemple 3 : Exécutions en parallèle
 
 Le mot-clé parallel permet d’exécuter plusieurs blocs en parallèle et d’attendre avant qu’ils aient tous finis de s’exécuter (fork-join) avant de continuer le pipeline.
 
@@ -140,13 +142,13 @@ parallel 'integration-tests':{
     node('selenium'){}
 }
 
-# Deuxième Pipeline
+## Deuxième Pipeline
 
 [https://github.com/Vlatombe/game-of-life](https://github.com/Vlatombe/game-of-life/tree/master)
 
 Ce projet est un exemple de projet java utilisant Maven comme outil de build, qui va nous permettre de pratiquer les différentes intégrations de pipeline avec divers plugins.
 
-## Trouver le bon plugin
+### Trouver le bon plugin
 
 * [https://plugins.jenkins.io/](https://plugins.jenkins.io/)
 
@@ -164,11 +166,11 @@ Step 3:
 
 Exercice: Concevoir un pipeline afin de construire ce projet.
 
-## Outils de builds
+### Outils de builds
 
 * Déclarer les installations de Java et de Maven
 
-## Rapports de tests
+### Rapports de tests
 
 * JUnit
 
@@ -180,13 +182,13 @@ Exercice: Concevoir un pipeline afin de construire ce projet.
 
 * Warnings
 
-## Validation manuelle
+### Validation manuelle
 
 Dans le cadre d’un pipeline de continuous delivery, on veut pouvoir contrôler l’exécution d’une partie du pipeline via une validation manuelle. On peut utiliser ce mécanisme pour promouvoir un build dans un environnement, ou bien déclencher la release à partir d’un build.
 
-# Pipeline-as-code
+## Pipeline-as-code
 
-## Principe
+### Principe
 
 On peut définir un pipeline dans Jenkins directement, mais il est plus aisé de travailler dans un vrai éditeur de texte plutôt que dans un textarea dans un navigateur.
 
@@ -194,7 +196,7 @@ Lorsque l’on souhaite stocker la définition du pipeline dans un SCM, il nous 
 
 Une fois dans le contexte d’exécution du pipeline, il est possible de récupérer le code correspondant au Jenkinsfile via la step **checkout scm**.
 
-## Sécurité
+### Sécurité
 
 Il existe 2 modes d’exécutions de pipelines: trusted et untrusted. Les pipelines définis dans Jenkins peuvent utiliser l’un ou l’autre, les ceux définis dans un SCM sont toujours untrusted.
 
@@ -202,7 +204,7 @@ En mode trusted, aucune restriction n’est appliquée au code du pipeline. Ce q
 
 En mode untrusted, seule une liste blanche d’instructions peut être exécutée. Un administrateur Jenkins peut rajouter des instructions à cette liste blanche si nécessaire. Dans ce mode il n’est pas possible d’appeler System.exit(0) sans qu’un administrateur l’ait autorisé explicitement.
 
-## Projets multi-branches
+### Projets multi-branches
 
 L’évolution logique de pipeline-as-code est de prendre en compte le cycle de vie du projet. Les SCMs modernes comme Git permettent de travailler sur plusieurs branches et il existe de nombreux produits sur le marché qui ont repris le concept de pull request introduit par GitHub (GitHub, BitBucket, Gitlab, Gogs…).
 
@@ -210,11 +212,11 @@ Jenkins permet de créer des projets qui sont capables de scanner l’intégrali
 
 On peut même aller plus loin et scanner une organisation (groupe de repositories) complète, via des plugins comme [GitHub Organization Folder Plugin](https://wiki.jenkins-ci.org/display/JENKINS/GitHub+Organization+Folder+Plugin).
 
-## Réutilisation du code
+### Réutilisation du code
 
 [https://github.com/jenkinsci/workflow-cps-global-lib-plugin](https://github.com/jenkinsci/workflow-cps-global-lib-plugin)
 
-## Pipelines déclaratifs
+### Pipelines déclaratifs
 
 [https://github.com/jenkinsci/pipeline-model-definition-plugin/wiki/getting%20started](https://github.com/jenkinsci/pipeline-model-definition-plugin/wiki/getting%20started)
 
