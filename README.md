@@ -10,13 +10,17 @@ Vérifier la version de java installée, et que Java est bien déclaré dans le 
 
 Si non, vérifier l’installation de Java, autrement ajouter le chemin vers la JDK dans le PATH
 
+```
 export PATH=$JAVA_HOME/bin
+```
 
 ### Démarrer Jenkins
 
 Se placer dans le dossier où jenkins.war a été téléchargé.
 
+```
 $ java -jar jenkins.war
+```
 
 Par défaut, Jenkins travaille dans $HOME/.jenkins et écoute sur 0.0.0.0/8080.
 
@@ -56,9 +60,9 @@ Nous allons utiliser une JDK ainsi que Maven pour construire certains projets. N
 
         * Entrez le chemin vers la JDK
 
-            * Windows: C:\Program Files\Java\jdk1.8.0_112
+            * Windows: `C:\Program Files\Java\jdk1.8.0_112`
 
-            * MacOS: /Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home
+            * MacOS: `/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home`
 
     * Maven > Ajouter Maven
 
@@ -96,9 +100,11 @@ La liste des étapes disponibles dépend des plugins installés sur l’instance
 
 Un pipeline minimal peut s’écrire ainsi:
 
+```
 node {
     echo 'Hello from Pipeline'
 }
+``` 
 
 #### Exemple 2 : Utilisation des stages
 
@@ -143,20 +149,22 @@ Ce projet est un exemple de projet java utilisant Maven comme outil de build, qu
 
 ### Trouver le bon plugin
 
+#### Références
 * [https://plugins.jenkins.io/](https://plugins.jenkins.io/)
 * [https://jenkins.io/doc/pipeline/steps/](https://jenkins.io/doc/pipeline/steps/)
 
-Etape 1: Créer un pipeline permettant de récupérer le code du projet
+#### Exercice
 
-Etape 2:
+1. Créer un pipeline permettant de récupérer le code du projet (mot-clé _checkout_)
+2. Ajouter une étape permettant de builder le projet avec Maven. Je vous recommande d’utiliser le [Pipeline Maven plugin](https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Maven+Plugin) pour vous simplifier la tâche.
+3. Ajouter des stage ‘Checkout’ et ‘Build’ afin d’avoir une représentation visuelle du pipeline
+4. Ajouter des rapports de builds
 
-* Ajouter une étape permettant de builder le projet avec Maven. Je vous recommande d’utiliser le [Pipeline Maven plugin](https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Maven+Plugin) pour vous simplifier la tâche.
+### Mise au point d'un pipeline
 
-* Ajouter des stage ‘Checkout’ et ‘Build’ afin d’avoir une représentation visuelle du pipeline
-
-Etape 3: 
-
-Exercice: Concevoir un pipeline afin de construire ce projet.
+* Fonction replay
+* checkout
+* variable `currentBuild`
 
 ### Outils de builds
 
