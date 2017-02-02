@@ -230,13 +230,13 @@ On peut même aller plus loin et scanner une organisation (groupe de repositorie
 
 ### Réutilisation du code
 
-[workflow-cps-global-lib-plugin](https://github.com/jenkinsci/workflow-cps-global-lib-plugin)
-[Shared Libraries](https://jenkins.io/doc/book/pipeline/shared-libraries/)
+* [workflow-cps-global-lib-plugin](https://github.com/jenkinsci/workflow-cps-global-lib-plugin)
+* [Shared Libraries](https://jenkins.io/doc/book/pipeline/shared-libraries/)
 
 Jetez un coup d'oeil à ces repositories de mon collègue [Adrien Lecharpentier](https://github.com/alecharp).
 
-[alecharp/jenkins-library](https://github.com/alecharp/jenkins-library)
-[alecharp/build-tools](https://github.com/alecharp/build-tools)
+* [alecharp/jenkins-library](https://github.com/alecharp/jenkins-library)
+* [alecharp/build-tools](https://github.com/alecharp/build-tools)
 
 ### Pipelines déclaratifs
 
