@@ -189,7 +189,7 @@ Mot-clé: `input`.
 
 On peut définir un pipeline dans Jenkins directement, mais il est plus aisé de travailler dans un vrai éditeur de texte
 plutôt que dans un textarea dans un navigateur. Le fait de stocker la définition du pipeline dans un SCM permet de le garder
- proche du code qu'il concerne et de le faire évoluer en m￿￿ême temps en cas de besoin.
+ proche du code qu'il concerne et de le faire évoluer en même temps en cas de besoin.
 
 Lorsque l’on souhaite stocker la définition du pipeline dans un SCM, il nous suffit de sélectionner l’option
 **Pipeline script from SCM** lors de la création du pipeline. Ensuite, nous devons saisir quel SCM utiliser.
