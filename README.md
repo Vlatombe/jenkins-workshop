@@ -152,67 +152,96 @@ Ce projet est un exemple de projet java utilisant Maven comme outil de build, qu
 #### Références
 * [https://plugins.jenkins.io/](https://plugins.jenkins.io/)
 * [https://jenkins.io/doc/pipeline/steps/](https://jenkins.io/doc/pipeline/steps/)
+* http://votre-url-jenkins/pipeline-syntax/
 
 #### Exercice
 
 1. Créer un pipeline permettant de récupérer le code du projet (mot-clé _checkout_)
-2. Ajouter une étape permettant de builder le projet avec Maven. Je vous recommande d’utiliser le [Pipeline Maven plugin](https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Maven+Plugin) pour vous simplifier la tâche.
+2. Ajouter une étape permettant de builder le projet avec Maven. Je vous recommande d’utiliser le
+[Pipeline Maven plugin](https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Maven+Plugin) pour vous simplifier la tâche.
 3. Ajouter des stage ‘Checkout’ et ‘Build’ afin d’avoir une représentation visuelle du pipeline
-4. Ajouter des rapports de builds
+4. Ajouter des rapports de builds (JUnit, Checkstyle, Findbugs, PMD, Warnings...)
+5. On voudrait pouvoir accélérer l'exécution des tests. Quels mécanismes ou plugins pourrait-on utiliser pour y parvenir?
 
 ### Mise au point d'un pipeline
 
-* Fonction replay
 * checkout
+* Fonction replay
+* stashes
 * variable `currentBuild`
+* Gérer les erreurs, retries
 
-### Outils de builds
+### Environnement de build
 
 * Déclarer les installations de Java et de Maven
-
-### Rapports de tests
-
-* JUnit
-* Checkstyle
-* FindBugs
-* PMD
-* Warnings
+Mot-clé: `tool`
 
 ### Validation manuelle
 
-Dans le cadre d’un pipeline de continuous delivery, on veut pouvoir contrôler l’exécution d’une partie du pipeline via une validation manuelle. On peut utiliser ce mécanisme pour promouvoir un build dans un environnement, ou bien déclencher la release à partir d’un build.
+Dans certains cas, on veut pouvoir contrôler l’exécution d’une partie du pipeline via une validation manuelle.
+On peut utiliser ce mécanisme pour promouvoir un build dans un environnement, ou bien déclencher la release à partir d’un build.
+
+Mot-clé: `input`.
 
 ## Pipeline-as-code
 
 ### Principe
 
-On peut définir un pipeline dans Jenkins directement, mais il est plus aisé de travailler dans un vrai éditeur de texte plutôt que dans un textarea dans un navigateur.
+On peut définir un pipeline dans Jenkins directement, mais il est plus aisé de travailler dans un vrai éditeur de texte
+plutôt que dans un textarea dans un navigateur. Le fait de stocker la définition du pipeline dans un SCM permet de le garder
+ proche du code qu'il concerne et de le faire évoluer en m￿￿ême temps en cas de besoin.
 
-Lorsque l’on souhaite stocker la définition du pipeline dans un SCM, il nous suffit de sélectionner l’option **Pipeline script from SCM** lors de la création du pipeline. Ensuite, nous devons saisir quel SCM utiliser. La convention est de stocker la définition du pipeline dans un fichier nommé **Jenkinsfile** situé à la racine du repository.
+Lorsque l’on souhaite stocker la définition du pipeline dans un SCM, il nous suffit de sélectionner l’option
+**Pipeline script from SCM** lors de la création du pipeline. Ensuite, nous devons saisir quel SCM utiliser.
+La convention est de stocker la définition du pipeline dans un fichier nommé **Jenkinsfile** situé à la racine du repository.
 
-Une fois dans le contexte d’exécution du pipeline, il est possible de récupérer le code correspondant au Jenkinsfile via la step **checkout scm**.
+Une fois dans le contexte d’exécution du pipeline, il est possible de récupérer le code correspondant au Jenkinsfile via l'étape **checkout scm**.
+
+#### Exercice
+
+* Convertir le pipeline précédent pour qu'il soit exécuté dans à partir du SCM.
 
 ### Sécurité
 
-Il existe 2 modes d’exécutions de pipelines: trusted et untrusted. Les pipelines définis dans Jenkins peuvent utiliser l’un ou l’autre, les ceux définis dans un SCM sont toujours untrusted.
+Il existe 2 modes d’exécutions de pipelines: _trusted_ et _untrusted_. Les pipelines définis dans Jenkins peuvent utiliser
+l’un ou l’autre, les ceux définis dans un SCM sont toujours untrusted.
 
-En mode trusted, aucune restriction n’est appliquée au code du pipeline. Ce qui permet de faire potentiellement des choses dangereuses, comme tuer la JVM Jenkins ou bien utiliser les APIs Jenkins pour récupérer toutes sortes d’informations. 
+En mode _trusted_, aucune restriction n’est appliquée au code du pipeline. Ce qui permet de faire potentiellement des
+choses dangereuses, comme tuer la JVM Jenkins ou bien utiliser les APIs Jenkins pour récupérer toutes sortes d’informations. 
 
-En mode untrusted, seule une liste blanche d’instructions peut être exécutée. Un administrateur Jenkins peut rajouter des instructions à cette liste blanche si nécessaire. Dans ce mode il n’est pas possible d’appeler System.exit(0) sans qu’un administrateur l’ait autorisé explicitement.
+En mode _untrusted_, seule une liste blanche d’instructions peut être exécutée. Un administrateur Jenkins peut rajouter
+des instructions à cette liste blanche si nécessaire. Dans ce mode il n’est pas possible d’appeler `System.exit(0)` sans
+qu’un administrateur l’ait autorisé explicitement.
 
 ### Projets multi-branches
 
-L’évolution logique de pipeline-as-code est de prendre en compte le cycle de vie du projet. Les SCMs modernes comme Git permettent de travailler sur plusieurs branches et il existe de nombreux produits sur le marché qui ont repris le concept de pull request introduit par GitHub (GitHub, BitBucket, Gitlab, Gogs…).
+L’évolution logique de pipeline-as-code est de prendre en compte le cycle de vie du projet. Les SCMs modernes comme Git
+permettent de travailler sur plusieurs branches et il existe de nombreux produits sur le marché qui ont repris le concept
+de pull request introduit par GitHub (GitHub, BitBucket, Gitlab, Gogs…).
 
-Jenkins permet de créer des projets qui sont capables de scanner l’intégralité des branches d’un repository ainsi que des pull requests. On peut ainsi valider toutes les branches et s’assurer de la qualité des pull requests avant de les merger.
+Jenkins permet de créer des projets qui sont capables de scanner l’intégralité des branches d’un repository ainsi que
+des pull requests. On peut ainsi valider toutes les branches et s’assurer de la qualité des pull requests avant de les merger.
 
-On peut même aller plus loin et scanner une organisation (groupe de repositories) complète, via des plugins comme [GitHub Organization Folder Plugin](https://wiki.jenkins-ci.org/display/JENKINS/GitHub+Organization+Folder+Plugin).
+On peut même aller plus loin et scanner une organisation (groupe de repositories) complète en utilisant le type `Github Organization`.
+
+#### Exercice
+
+* Reprendre le pipeline précédent pour le builder gr￿âce à un pipeline multi-branche.
 
 ### Réutilisation du code
 
-[https://github.com/jenkinsci/workflow-cps-global-lib-plugin](https://github.com/jenkinsci/workflow-cps-global-lib-plugin)
+[workflow-cps-global-lib-plugin](https://github.com/jenkinsci/workflow-cps-global-lib-plugin)
+[Shared Libraries](https://jenkins.io/doc/book/pipeline/shared-libraries/)
+
+Jetez un coup d'oeil à ces repositories de mon collègue [Adrien Lecharpentier](https://github.com/alecharp).
+
+[alecharp/jenkins-library](https://github.com/alecharp/jenkins-library)
+[alecharp/build-tools](https://github.com/alecharp/build-tools)
 
 ### Pipelines déclaratifs
 
-[https://github.com/jenkinsci/pipeline-model-definition-plugin/wiki/getting%20started](https://github.com/jenkinsci/pipeline-model-definition-plugin/wiki/getting%20started)
+* [Pipeline Model Definition Plugin - Getting started](https://github.com/jenkinsci/pipeline-model-definition-plugin/wiki/getting%20started)
 
+### Bonnes pratiques
+
+* [Pipeline scalability best practices](https://jenkins.io/blog/2017/02/01/pipeline-scalability-best-practice/)
