@@ -226,7 +226,7 @@ On peut même aller plus loin et scanner une organisation (groupe de repositorie
 
 #### Exercice
 
-* Reprendre le pipeline précédent pour le builder gr￿âce à un pipeline multi-branche.
+* Reprendre le pipeline précédent pour le builder grâce à un pipeline multi-branche.
 
 ### Réutilisation du code
 
